@@ -17,12 +17,12 @@ export async function GET(req: NextRequest) {
   });
 
   if (!res.ok) {
-    const err = await res.json();
+    const text = await res.text();
     // Token expired
     if (res.status === 401) {
       return NextResponse.json({ error: "Spotify token expired", expired: true }, { status: 401 });
     }
-    return NextResponse.json({ error: err.error?.message || "Spotify error" }, { status: res.status });
+    return NextResponse.json({ error: text || "Spotify error" }, { status: res.status });
   }
 
   const data = await res.json();
